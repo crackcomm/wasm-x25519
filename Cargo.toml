@@ -1,9 +1,12 @@
 [package]
-name = "wasm-x25519"
+name = "wasm-xeddsa"
 description = "WASM x25519 key generation, such as for use in WireGuard"
 version = "0.1.2"
-authors = ["lights0123 <developer@lights0123.com>"]
-repository = "https://github.com/lights0123/wasm-x25519"
+authors = [
+  "lights0123 <developer@lights0123.com>",
+  "Łukasz Kurowski <crackcomm@gmail.com>"
+]
+repository = "https://github.com/crackcomm/wasm-x25519"
 edition = "2018"
 readme = "README.md"
 license = "BSD-3-Clause"
@@ -15,9 +18,10 @@ crate-type = ["cdylib", "rlib"]
 wasm-bindgen = "0.2.63"
 x25519-dalek = "1.1.0"
 curve25519-dalek = "3.0.0"
+ed25519-dalek = "1.0.1"
 rand = { version = "0.7.3", features = ["wasm-bindgen"] }
-base64 = "0.13.0"
 js-sys = "0.3.45"
+subtle = "2.3.0"
 
 # `wee_alloc` is a tiny allocator for wasm that is only ~1K in code size
 # compared to the default allocator's ~10K. It is slower than the default
@@ -33,4 +37,4 @@ opt-level = "s"
 lto = true
 
 [package.metadata.wasm-pack.profile.release]
-wasm-opt = ["-Oz", "--enable-mutable-globals"]
+wasm-opt = ["-Os", "--enable-mutable-globals"]
