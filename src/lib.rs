@@ -51,10 +51,10 @@ pub fn x25519_shared(secret_key: &[u8], public_key: &[u8]) -> Result<Uint8Array,
 
 /// Generates a random 32 byte secret seed.
 #[wasm_bindgen]
-pub fn generate_seed() -> Result<Uint8Array, JsValue> {
+pub fn generate_seed() -> Uint8Array {
     // Instances of this secret are automatically overwritten with zeroes when they fall out of scope.
     let secret_key = ed25519_dalek::SecretKey::generate(&mut OsRng);
-    Ok(Uint8Array::from(&secret_key.to_bytes()[..]).into())
+    Uint8Array::from(&secret_key.to_bytes()[..])
 }
 
 /// Expands **ed25519** seed to a `private` key.
@@ -63,7 +63,7 @@ pub fn expand_seed(secret_seed: &[u8]) -> Result<Uint8Array, JsValue> {
     let secret_key =
         ed25519_dalek::SecretKey::from_bytes(secret_seed).map_err(|_| JsError::new("SecretKey"))?;
     let secret_key = ed25519_dalek::ExpandedSecretKey::from(&secret_key);
-    Ok(Uint8Array::from(&secret_key.to_bytes()[..]).into())
+    Ok(Uint8Array::from(&secret_key.to_bytes()[..]))
 }
 
 /// Derives **ed25519** `public` key from expanded `private` key.
@@ -72,7 +72,7 @@ pub fn ed25519_public(secret_key: &[u8]) -> Result<Uint8Array, JsValue> {
     let secret_key = ed25519_dalek::ExpandedSecretKey::from_bytes(secret_key)
         .map_err(|_| JsError::new("SecretKey"))?;
     let public_key = ed25519_dalek::PublicKey::from(&secret_key);
-    Ok(Uint8Array::from(&public_key.to_bytes()[..]).into())
+    Ok(Uint8Array::from(&public_key.to_bytes()[..]))
 }
 
 /// Calculates a signature of a message.
